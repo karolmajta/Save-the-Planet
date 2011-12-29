@@ -1,7 +1,5 @@
-Neural is intended to be a package for doing artificial
-neural networks programming in pure Python.
+Save the Planet!
 
-Additional information about the package can be found at:
-http://student.agh.edu.pl/~majta/neural/
-
-Neural is licensed under JSON license (see LICENSE.txt)
+Save the Planet is a 2D arcade shooter. Destroy asteroids to save your planet
+from destruction. Aim well, shoot constantly, collect power-ups and hit the
+highscore!

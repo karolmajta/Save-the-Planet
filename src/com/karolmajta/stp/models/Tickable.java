@@ -28,7 +28,7 @@ public abstract class Tickable implements ITickable {
 	 * 		{@link Tickable#ignoreTicks(boolean)} provided argument can
 	 * 		not be used as to calculate the length of ignore-period. 
 	 */
-	public abstract void onTick(long dt);
+	protected abstract void onTick(long dt);
 	
 	/**
 	 * Will call {@link Tickable#onTick(long)} if

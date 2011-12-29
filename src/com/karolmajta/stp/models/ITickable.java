@@ -20,14 +20,6 @@ public interface ITickable {
 	public void tick(long dt);
 	
 	/**
-	 * Called via tick if not ignoring.
-	 * 
-	 * @param dt Time in milliseconds since last call to
-	 * 		{@link ITickable#tick(long)}
-	 */
-	public void onTick(long dt);
-	
-	/**
 	 * Called to mark this object as ignoring calls to {@link ITickable#tick(long)}.
 	 * Implementation of this method is free. There is no guarantee that after calling
 	 * {@link ITickable#ignoreTicks(boolean)} {@link ITickable#ignoresTicks()} will

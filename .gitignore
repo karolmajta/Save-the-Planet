@@ -10,6 +10,7 @@
 
 # generated files
 bin/
+doc/
 gen/
 libs/
 
@@ -19,3 +20,4 @@ local.properties
 # Eclipse specific
 .classpath
 .project
+*.log

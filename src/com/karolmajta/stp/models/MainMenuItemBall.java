@@ -1,5 +1,7 @@
 package com.karolmajta.stp.models;
 
+import android.util.Log;
+
 public class MainMenuItemBall extends Tickable {
 	// string label of this menu item
 	private String label; 
@@ -193,7 +195,7 @@ public class MainMenuItemBall extends Tickable {
 	 */
 	public float getNextAX() {
 		float dx = getBaseDx();
-		float newAX = -(spring/mass)*dx -(damping/mass)*currentVX;
+		float newAX = (spring/mass)*dx -(damping/mass)*currentVX;
 		return newAX;
 	}
 	
@@ -204,7 +206,7 @@ public class MainMenuItemBall extends Tickable {
 	 */
 	public float getNextAY() {
 		float dy = getBaseDy();
-		float newAY = -(spring/mass)*dy -(damping/mass)*currentVY;
+		float newAY = (spring/mass)*dy -(damping/mass)*currentVY;
 		return newAY;
 	}
 	

@@ -38,13 +38,13 @@ public class TestMainMenuItemBall extends TestCase {
 	 * equation.
 	 */
 	public void testGetNextAX() {
-		float expected = -(K/M)*b.getBaseDx() - (B/M)*b.getCurrentVX();
+		float expected = (K/M)*b.getBaseDx() - (B/M)*b.getCurrentVX();
 		float actual = b.getNextAX();
 		assertEquals(expected, actual, FLOAT_EPSILON);
 	}
 	
 	public void testGetNextAY() {
-		float expected = -(K/M)*b.getBaseDy() - (B/M)*b.getCurrentVY();
+		float expected = (K/M)*b.getBaseDy() - (B/M)*b.getCurrentVY();
 		float actual = b.getNextAY();
 		assertEquals(expected, actual, FLOAT_EPSILON);
 	}

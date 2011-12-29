@@ -6,13 +6,13 @@ public class MainMenuItemBall extends Tickable {
 	// string label of this menu item
 	private String label; 
 	// coordinates of point where this ball is constrained
-	private float x0; // percentage of screen width
-	private float y0; // percentage of screen height
+	private float x0; // pixels
+	private float y0; // pixels
 	// radius of the ball
-	private float radius; // percentage of screen width
+	private float radius; // pixels
 	// current coordinates of ball 
-	private float currentX; // percentage of screen width
-	private float currentY; // percentage of screen height
+	private float currentX; // pixels
+	private float currentY; // pixels
 	// current velocities of ball
 	private float currentVX;
 	private float currentVY;

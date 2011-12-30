@@ -26,11 +26,11 @@ public class TestMainMenuItemBall extends TestCase {
 			);
 	
 	public void testGetBaseDx() {
-		assertEquals(X0-X1, b.getBaseDx(), FLOAT_EPSILON);
+		assertEquals(X1-X0, b.getBaseDx(), FLOAT_EPSILON);
 	}
 	
 	public void testGetBaseDy() {
-		assertEquals(Y0-Y1, b.getBaseDy(), FLOAT_EPSILON);
+		assertEquals(Y1-Y0, b.getBaseDy(), FLOAT_EPSILON);
 	}
 
 	/**
@@ -38,13 +38,13 @@ public class TestMainMenuItemBall extends TestCase {
 	 * equation.
 	 */
 	public void testGetNextAX() {
-		float expected = (K/M)*b.getBaseDx() - (B/M)*b.getCurrentVX();
+		float expected = -(K/M)*b.getBaseDx() - (B/M)*b.getCurrentVX();
 		float actual = b.getNextAX();
 		assertEquals(expected, actual, FLOAT_EPSILON);
 	}
 	
 	public void testGetNextAY() {
-		float expected = (K/M)*b.getBaseDy() - (B/M)*b.getCurrentVY();
+		float expected = -(K/M)*b.getBaseDy() - (B/M)*b.getCurrentVY();
 		float actual = b.getNextAY();
 		assertEquals(expected, actual, FLOAT_EPSILON);
 	}

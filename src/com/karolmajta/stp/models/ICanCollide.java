@@ -41,5 +41,5 @@ public interface ICanCollide<With> {
 	 * @param other object that collides with this
 	 * @return indication if collision occurs and if it's safe to call collide
 	 */
-	public boolean willAffect(With other);
+	public boolean affectedBy(With other);
 }

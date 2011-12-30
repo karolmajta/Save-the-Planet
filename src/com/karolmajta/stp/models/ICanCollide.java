@@ -30,4 +30,16 @@ public interface ICanCollide<With> {
 	 * @param other object that collides with this.
 	 */
 	public void collide(With other);
+	
+	/**
+	 * Method for checking basing on state of this and other whether current
+	 * state of this and other will affect this.
+	 * This method should be called before collide and if true is returned it is
+	 * safe to call collide. If false is returned calls to collide can give
+	 * unexpected (undefined) results.
+	 * 
+	 * @param other object that collides with this
+	 * @return indication if collision occurs and if it's safe to call collide
+	 */
+	public boolean willAffect(With other);
 }

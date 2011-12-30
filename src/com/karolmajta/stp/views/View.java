@@ -4,6 +4,14 @@ import com.karolmajta.stp.exception.UnboundViewException;
 
 import processing.core.PApplet;
 
+/**
+ * Abstract class for creating specialized views for concrete models.
+ * Makes given Model instance accessible via protected model field.
+ * 
+ * @author Karol
+ *
+ * @param <Model> Model this View will draw
+ */
 public abstract class View<Model> implements IDrawable<Model> {
 	private boolean visible;
 	

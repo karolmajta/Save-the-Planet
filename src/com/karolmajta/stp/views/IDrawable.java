@@ -4,6 +4,14 @@ import com.karolmajta.stp.exception.UnboundViewException;
 
 import processing.core.PApplet;
 
+/**
+ * Implemented by all classes that can draw a model on given PApplet canvas.
+ * 
+ * @author Karol
+ *
+ * @param <Model> model for this IDrawable. Should be made protected and easily
+ * 		accessed in implementing classes
+ */
 public interface IDrawable<Model> {
 	/**
 	 * Draw this view on given PApplet.

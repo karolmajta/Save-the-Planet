@@ -1,11 +1,16 @@
 package com.karolmajta.stp.models;
 
+/**
+ * 
+ * @author Karol
+ *
+ */
 public class MainMenuObstacleBall extends Tickable {
-	private float x;
-	private float y;
-	private float radius;
-	private float vx;
-	private float vy;
+	private float x; // pixels
+	private float y; // pixels
+	private float radius; // pixels
+	private float vx; // pixels/millisecond
+	private float vy; // pixels/millisecond
 	
 	public MainMenuObstacleBall(float x, float y, float r, float vx, float vy) {
 		this.x = x;
@@ -72,7 +77,9 @@ public class MainMenuObstacleBall extends Tickable {
 	}
 
 
-
+	/**
+	 * Integrates position based on current speed. Speed does not change
+	 */
 	@Override
 	protected void onTick(long dt) {
 		x += vx*dt;

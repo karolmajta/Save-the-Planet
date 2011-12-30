@@ -176,7 +176,7 @@ public class MainMenuItemBall extends Tickable {
 	 * 		than zero!) between base x and current x.
 	 */
 	public float getBaseDx() {
-		return x0-currentX;
+		return currentX-x0;
 	}
 	
 	/**
@@ -185,7 +185,7 @@ public class MainMenuItemBall extends Tickable {
 	 * 		y axis.
 	 */
 	public float getBaseDy() {
-		return y0-currentY;
+		return currentY-y0;
 	}
 	
 	/**
@@ -195,7 +195,7 @@ public class MainMenuItemBall extends Tickable {
 	 */
 	public float getNextAX() {
 		float dx = getBaseDx();
-		float newAX = (spring/mass)*dx -(damping/mass)*currentVX;
+		float newAX = -(spring/mass)*dx -(damping/mass)*currentVX;
 		return newAX;
 	}
 	
@@ -206,7 +206,7 @@ public class MainMenuItemBall extends Tickable {
 	 */
 	public float getNextAY() {
 		float dy = getBaseDy();
-		float newAY = (spring/mass)*dy -(damping/mass)*currentVY;
+		float newAY = -(spring/mass)*dy -(damping/mass)*currentVY;
 		return newAY;
 	}
 	

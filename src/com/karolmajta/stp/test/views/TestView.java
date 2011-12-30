@@ -72,6 +72,16 @@ public class TestView extends TestCase {
 		assertTrue(notCalled.satisfied);
 	}
 	
+	public void testModelIsAccessibleViaProtectedModelField() {
+		final Object o = new Object();
+		View stubView = new View() {
+			@Override
+			protected void onDraw(PApplet p) {
+				assertEquals(o, model);	
+			}
+		};
+	}
+	
 	// there should be one more test here. It should test if onDraw is called
 	// with same PApplet instance as draw, but I have no idea how to mock out
 	// PApplet as no interface for it is provided (just concrete class), and

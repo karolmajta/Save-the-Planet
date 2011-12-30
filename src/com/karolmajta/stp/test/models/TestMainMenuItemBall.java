@@ -86,25 +86,6 @@ public class TestMainMenuItemBall extends TestCase {
 		
 		assertEquals(expectedDistance, b.getBasePointDist(), FLOAT_EPSILON);
 	}
-	
-	/**
-	 * Test order of integration equations is fine.
-	 */
-	public void testIntegrate() {
-		float AX = b.getNextAX();
-		float AY = b.getNextAY();
-		float nextVX = VX+AX*DT;
-		float nextVY = VY+AY*DT;
-		float nextX = X1+VX*DT;
-		float nextY = Y1+VY*DT;
-		
-		b.integrate(DT);
-		
-		assertEquals(b.getCurrentVX(), nextVX);
-		assertEquals(b.getCurrentVY(), nextVY);
-		assertEquals(b.getCurrentX(), nextX);
-		assertEquals(b.getCurrentY(), nextY);
-	}
 
 	public void testIntegratesOnTick() {
 		float AX = b.getNextAX();

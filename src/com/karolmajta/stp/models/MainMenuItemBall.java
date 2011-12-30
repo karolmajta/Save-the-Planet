@@ -267,7 +267,7 @@ public class MainMenuItemBall extends Tickable {
 	 * state of the object
 	 * @param dt Integration step (milliseconds)
 	 */
-	public void integrate(long dt) {
+	private void integrate(long dt) {
 		float accX = getNextAX();
 		float accY = getNextAY();
 		float nextVX = currentVX+accX*dt;

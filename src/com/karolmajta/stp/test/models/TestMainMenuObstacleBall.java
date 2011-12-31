@@ -1,5 +1,6 @@
 package com.karolmajta.stp.test.models;
 
+import com.karolmajta.stp.models.MainMenuItemBall;
 import com.karolmajta.stp.models.MainMenuObstacleBall;
 
 import junit.framework.TestCase;
@@ -32,5 +33,81 @@ public class TestMainMenuObstacleBall extends TestCase {
 		
 		assertEquals(VX0, ball.getVX());
 		assertEquals(VY0, ball.getVY());
+	}
+	
+	public void testAffectedByWithMainMenuItemBallFalseIfDontOverlap() {
+		float x0 = 0.0f;
+		float y0 = 0.0f;
+		float r0 = 10.0f;
+		
+		float x1 = 0.0f;
+		float y1 = 20.0f;
+		float r1 = 8.0f;
+		
+		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0);
+		MainMenuItemBall b1 = new MainMenuItemBall
+				(
+						x1, y1, r1, 0, 0, 0
+				);
+		
+		assertFalse(b0.affectedBy(b1));
+	}
+	
+	public void testAffectedByWithMainMenuItemBallTrueIfOverlap() {
+		float x0 = 0.0f;
+		float y0 = 0.0f;
+		float r0 = 10.0f;
+		
+		float x1 = 0.0f;
+		float y1 = 20.0f;
+		float r1 = 12.0f;
+		
+		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0);
+		MainMenuItemBall b1 = new MainMenuItemBall
+				(
+						x1, y1, r1, 0, 0, 0
+				);
+		
+		assertTrue(b0.affectedBy(b1));
+	}
+	
+	/**
+	 * This test is not very pretty which means there is better way to
+	 * implement this.
+	 */
+	public void testWontBeAffectedAgainUntilCollisionAreaIsLeft() {
+		float x0 = 0.0f;
+		float y0 = 0.0f;
+		float r0 = 10.0f;
+		
+		float xc = 0.0f;
+		float yc = 20.0f;
+		float rc = 12.0f;
+		
+		float xnc = 0.0f;
+		float ync = 20.0f;
+		float rnc = 8.0f;
+		
+		MainMenuItemBall item = new MainMenuItemBall(xc, yc, rc, 0, 0, 0);
+		
+		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0);
+		
+		assertTrue(b0.affectedBy(item));
+		assertFalse(b0.affectedBy(item));
+		assertFalse(b0.affectedBy(item));
+		
+		item.setCurrentX(xnc);
+		item.setCurrentY(ync);
+		item.setRadius(rnc);
+		
+		assertFalse(b0.affectedBy(item));
+		assertFalse(b0.affectedBy(item));
+		
+		item.setCurrentX(xc);
+		item.setCurrentY(yc);
+		item.setRadius(rc);
+		
+		assertTrue(b0.affectedBy(item));
+		assertFalse(b0.affectedBy(item));
 	}
 }

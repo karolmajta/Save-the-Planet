@@ -17,8 +17,8 @@ public class MainMenuObstacleBallDebugView extends View<MainMenuObstacleBall> {
 		p.ellipse(
 				model.getX(),
 				model.getY(),
-				model.getRadius(),
-				model.getRadius()
+				model.getRadius()*2,
+				model.getRadius()*2
 		);
 		p.line(
 				model.getX()+model.getRadius()/2,

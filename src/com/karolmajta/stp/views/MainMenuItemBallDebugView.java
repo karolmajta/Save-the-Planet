@@ -56,8 +56,8 @@ public class MainMenuItemBallDebugView extends View<MainMenuItemBall> {
 		p.ellipse(
 				model.getCurrentX(),
 				model.getCurrentY(),
-				model.getRadius(),
-				model.getRadius()
+				model.getRadius()*2,
+				model.getRadius()*2
 		);
 		
 		p.fill(prevFill);

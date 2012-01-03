@@ -6,6 +6,7 @@ import com.karolmajta.stp.exception.NoTasksInProgressQueueException;
 import com.karolmajta.stp.exception.UnboundViewException;
 import com.karolmajta.stp.models.SyncProgress;
 import com.karolmajta.stp.models.SyncTask;
+import com.karolmajta.stp.views.FancyTextView;
 import com.karolmajta.stp.views.ProgressView;
 
 import android.content.Intent;
@@ -16,7 +17,7 @@ import processing.core.PFont;
 import processing.core.PImage;
 
 public class LoadingScreenActivity extends PApplet {
-	private static final String[] AVAILABLE_FONTS = {
+	public static final String[] AVAILABLE_FONTS = {
 		"Sansation_Bold.ttf"
 	};
 	
@@ -28,6 +29,7 @@ public class LoadingScreenActivity extends PApplet {
 	
 	private static final String GAME_LOGO = "logo.png";
 	private static final String STUDIO_LOGO = "303games.png";
+	private static final String TAP_STRING = "Tap to continue";
 	
 	private static float MARGIN_W;
 	private static float MARGIN_H;
@@ -41,11 +43,11 @@ public class LoadingScreenActivity extends PApplet {
 	private static float SLOGO_X;
 	private static float SLOGO_Y;
 	
-	private static float FONT_SMALL;
-	private static float FONT_MEDIUM;
-	private static float FONT_BIG;
+	public static float FONT_SMALL;
+	public static float FONT_MEDIUM;
+	public static float FONT_BIG;
 	
-	private static float[] FONT_SIZES;
+	public static float[] FONT_SIZES;
 	
 	private FontManager fontManager;
 	
@@ -54,7 +56,8 @@ public class LoadingScreenActivity extends PApplet {
 	private ProgressView progressView;
 	private PImage gameLogo;
 	private PImage studioLogo;
-
+	private FancyTextView tapScreenView;
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +86,8 @@ public class LoadingScreenActivity extends PApplet {
     	BAR_IN = 0.5f*BAR_OUT;
     	
     	FONT_SMALL = height/40;
-    	FONT_MEDIUM = FONT_SMALL*1.5f;
-    	FONT_BIG = FONT_MEDIUM*1.5f;
+    	FONT_MEDIUM = FONT_SMALL*2.5f;
+    	FONT_BIG = FONT_MEDIUM*2.0f;
     	FONT_SIZES = new float[] {
     			FONT_SMALL,
     			FONT_MEDIUM,
@@ -123,6 +126,16 @@ public class LoadingScreenActivity extends PApplet {
 			loadingBarPFont = g.textFont;
 		}
     	
+		tapScreenView = new FancyTextView
+				(
+						width/2,
+						BAR_Y,
+						loadingBarPFont,
+						0xffffffff,
+						FancyTextView.SHOW
+				);
+		tapScreenView.bindModel(TAP_STRING);
+		
     	progressView = new ProgressView
     			(
     					BAR_NAME,
@@ -153,6 +166,14 @@ public class LoadingScreenActivity extends PApplet {
 			progressView.draw(this);
 		} catch (UnboundViewException e) {
 			e.printStackTrace();
+		}
+    	
+    	try {
+    		if(!progressView.isVisible()){
+    			tapScreenView.draw(this);
+    		}
+		} catch (UnboundViewException e1) {
+			e1.printStackTrace();
 		}
     	
     	if(progress.hasNextTask()){

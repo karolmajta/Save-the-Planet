@@ -1,29 +1,63 @@
 package com.karolmajta.stp;
 
 import com.karolmajta.procprox.FontManager;
-import com.karolmajta.stp.exception.FontNotLoadedException;
+import com.karolmajta.procprox.excepiton.FontNotCreatedException;
+import com.karolmajta.stp.exception.NoTasksInProgressQueueException;
+import com.karolmajta.stp.exception.UnboundViewException;
+import com.karolmajta.stp.models.SyncProgress;
+import com.karolmajta.stp.models.SyncTask;
+import com.karolmajta.stp.views.ProgressView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Display;
 import processing.core.PApplet;
+import processing.core.PFont;
+import processing.core.PImage;
 
 public class LoadingScreenActivity extends PApplet {
 	private static final String[] AVAILABLE_FONTS = {
-		"LiberationSansNarrow-Bold.ttf"
+		"Sansation_Bold.ttf"
 	};
 	
-	private int FONT_HUGE;
-	private int FONT_BIG;
-	private int FONT_NORMAL;
-	private int FONT_SMALL;
-	private int FONT_TINY;
+	private static final String BAR_NAME = "Loading...";
+	private static final int BGCOLOR = 0xff000000;
+	private static final int BAR_BG = 0xffffffff;
+	private static final int BAR_EMPTY = 0xffffffff;
+	private static final int BAR_LOADED = 0xffff0000;
+	
+	private static final String GAME_LOGO = "logo.png";
+	private static final String STUDIO_LOGO = "303games.png";
+	
+	private static float MARGIN_W;
+	private static float MARGIN_H;
+	private static float BAR_X;
+	private static float BAR_Y;
+	private static float BAR_WIDTH;
+	private static float BAR_OUT;
+	private static float BAR_IN;
+	private static float LOGO_X;
+	private static float LOGO_Y;
+	private static float SLOGO_X;
+	private static float SLOGO_Y;
+	
+	private static float FONT_SMALL;
+	private static float FONT_MEDIUM;
+	private static float FONT_BIG;
+	
+	private static float[] FONT_SIZES;
 	
 	private FontManager fontManager;
 	
+	private SyncProgress progress;
+	
+	private ProgressView progressView;
+	private PImage gameLogo;
+	private PImage studioLogo;
+
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fontManager = FontManager.getFontManager();
     }
 	
 	@Override
@@ -33,47 +67,108 @@ public class LoadingScreenActivity extends PApplet {
 	
     @Override
     public void setup() {
+    	gameLogo = loadImage(GAME_LOGO);
+    	studioLogo = loadImage(STUDIO_LOGO);
     	
-    	FONT_HUGE = height/5;
-    	FONT_BIG = height/10;
-    	FONT_NORMAL = height/20;
+    	MARGIN_W = width/10;
+    	MARGIN_H = MARGIN_W;
+    	LOGO_X = MARGIN_W;
+    	LOGO_Y = MARGIN_H;
+    	SLOGO_X = (width-studioLogo.width)/2;
+    	SLOGO_Y = height-MARGIN_H-studioLogo.height;
+    	BAR_X = 2*MARGIN_W;
+    	BAR_Y = LOGO_Y+gameLogo.width+MARGIN_H;
+    	BAR_WIDTH = width-4*MARGIN_W;
+    	BAR_OUT = height/50;
+    	BAR_IN = 0.5f*BAR_OUT;
+    	
     	FONT_SMALL = height/40;
-    	FONT_TINY = height/60;
+    	FONT_MEDIUM = FONT_SMALL*1.5f;
+    	FONT_BIG = FONT_MEDIUM*1.5f;
+    	FONT_SIZES = new float[] {
+    			FONT_SMALL,
+    			FONT_MEDIUM,
+    			FONT_BIG
+    	};
+    	
+    	FontManager.getFontManager()
+			.createFont(this, "Sansation_Bold.ttf", (int)FONT_SMALL);
+    	
+    	progress = new SyncProgress();
+    	for(final String fontName : AVAILABLE_FONTS){
+    		for(final float size : FONT_SIZES){
+	    		SyncTask t = new SyncTask() {
+					@Override
+					public void then() {}
+					@Override
+					public void doIt() {
+						FontManager fm = FontManager.getFontManager();
+						fm.createFont
+								(
+										LoadingScreenActivity.this,
+										fontName,
+										(int)size
+								);
+					}
+				};
+				progress.addTask(t, 1);
+    		}
+    	}
+    	
+    	PFont loadingBarPFont = null;
+		try {
+			loadingBarPFont = FontManager.getFontManager()
+					.getFont("Sansation_Bold.ttf", (int)FONT_SMALL);
+		} catch (FontNotCreatedException e) {
+			loadingBarPFont = g.textFont;
+		}
+    	
+    	progressView = new ProgressView
+    			(
+    					BAR_NAME,
+    					loadingBarPFont,
+    					BAR_X,
+    					BAR_Y,
+    					BAR_WIDTH,
+    					BAR_OUT,
+    					BAR_IN,
+    					BAR_BG,
+    					BAR_EMPTY,
+    					BAR_LOADED
+    			);
+    	progressView.bindModel(progress);
     	
     	smooth();
-    	
-    	background(0xff000000);
-    	
-    	//progress bar dimensions
-    	float margin = width/20;
-    	float x0 = margin;
-    	float x1 = width-margin;
-    	float y0 = height/2;
-    	float y1 = height/2;
-    	// draw grey background for progressbar
-    	stroke(0xffcccccc);
-    	strokeWeight(width/50);
-    	line(x0, y0, x1, y1);
-    	// create fonts and update progressbar
-    	stroke(0xffff0000);
-    	strokeWeight(width/120);
-    	
-    	float dist = (x1-x0)/AVAILABLE_FONTS.length;
-    	float currentX0 = x0;
-    	float currentX1 = x0+dist;
-    	
-    	for(String fontName : AVAILABLE_FONTS){
-    		fontManager.createFont(this, fontName, FONT_HUGE, true);
-    		noOp(millis(), 1500);
-    		line(currentX0, y0, currentX1, y1);
-    		currentX0+=dist;
-    		currentX0+=dist;
-    	}
+    	background(BGCOLOR);
     }
 
     @Override
     public void draw() {
-    	//
+    	background(BGCOLOR);
+    	
+    	image(gameLogo, LOGO_X, LOGO_Y);
+    	image(studioLogo, SLOGO_X, SLOGO_Y);
+    	
+    	try {
+			progressView.draw(this);
+		} catch (UnboundViewException e) {
+			e.printStackTrace();
+		}
+    	
+    	if(progress.hasNextTask()){
+    		try {
+				progress.doNext();
+			} catch (NoTasksInProgressQueueException e) {
+				e.printStackTrace();
+			}
+    	}
+    	
+    	if(mousePressed && !progressView.isVisible()){
+    		Intent i = new Intent(this, MainMenuActivity.class);
+    		startActivity(i);
+    		exit();
+    		finish();
+    	}
     }
     
     @Override
@@ -91,9 +186,5 @@ public class LoadingScreenActivity extends PApplet {
     @Override
     public String sketchRenderer() {
         return P2D;
-    }
-    
-    private void noOp(long now, long timeout){
-    	while(millis() < now + timeout) {} 
     }
 }

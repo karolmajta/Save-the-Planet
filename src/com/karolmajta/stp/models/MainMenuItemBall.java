@@ -48,6 +48,7 @@ public class MainMenuItemBall extends Tickable {
 			float damping,
 			float mass
 	) {
+		this.label = label;
 		this.x0 = x0;
 		this.y0 = y0;
 		this.radius = radius;

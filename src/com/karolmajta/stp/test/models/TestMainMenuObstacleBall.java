@@ -71,7 +71,7 @@ public class TestMainMenuObstacleBall extends TestCase {
 		assertTrue(b0.affectedBy(b1));
 	}
 	
-	/**
+	/*
 	 * This test is not very pretty which means there is better way to
 	 * implement this.
 	 */

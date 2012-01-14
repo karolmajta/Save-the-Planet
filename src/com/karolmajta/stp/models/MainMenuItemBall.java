@@ -1,8 +1,16 @@
 package com.karolmajta.stp.models;
 
+import com.karolmajta.procprox.Tap;
+import com.karolmajta.stp.exception.NoDeferredException;
+import com.karolmajta.stp.models.MainMenuItemBall.Deferred;
+
 import android.util.Log;
 
 public class MainMenuItemBall extends Tickable {
+	public abstract static class Deferred {
+		public abstract void call();
+	}
+	
 	// string label of this menu item
 	private String label; 
 	// coordinates of point where this ball is constrained
@@ -21,6 +29,8 @@ public class MainMenuItemBall extends Tickable {
 	private float damping;
 	// mass
 	private float mass;
+	// deferred to launch when tapped
+	private Deferred deferred;
 	/**
 	 * 
 	 * @param label String label describing this menu item
@@ -288,5 +298,22 @@ public class MainMenuItemBall extends Tickable {
 	@Override
 	public void onTick(long dt) {
 		integrate(dt);
+	}
+
+	public void consumeTap(Tap t) throws NoDeferredException {
+		float x = t.getStopX();
+		float y = t.getStopY();
+		float dist = (float)Math.sqrt((x-currentX)*(x-currentX)+(y-currentY)*(y-currentY));
+		if(dist < radius){
+			if(deferred != null){
+				deferred.call();
+			}else{
+				throw new NoDeferredException();
+			}
+		}
+	}
+	
+	public void provideDeferred(Deferred c){
+		deferred = c;
 	}
 }

@@ -3,8 +3,6 @@ package com.karolmajta.procprox.test;
 import com.karolmajta.procprox.Drag;
 import com.karolmajta.procprox.DragDetector;
 import com.karolmajta.procprox.IEventFilter;
-import com.karolmajta.stp.models.ITask;
-import com.karolmajta.stp.models.SyncProgress;
 
 import junit.framework.TestCase;
 

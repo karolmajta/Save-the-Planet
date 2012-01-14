@@ -57,13 +57,18 @@ public class FancyTextView extends View<String> {
 	private void show(PApplet p) {
 		int prevFill = p.g.fillColor;
 		int prevAlign = p.g.textAlign;
+		PFont prevFont = p.g.textFont;
 		
 		p.fill(p.red(color), p.green(color), p.blue(color), alpha);
 		p.textAlign(p.CENTER);
+		p.textFont(font);
 		p.text(model, x, y);
 		
 		p.fill(prevFill);
-		p.g.textAlign(prevAlign);
+		p.textAlign(prevAlign);
+		if(prevFont != null){
+			p.textFont(prevFont);
+		}
 	}
 
 }

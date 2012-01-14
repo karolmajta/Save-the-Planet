@@ -1,15 +1,21 @@
 package com.karolmajta.stp.models;
 
+import java.util.HashSet;
+
 import com.karolmajta.procprox.Tap;
 import com.karolmajta.stp.exception.NoDeferredException;
 import com.karolmajta.stp.models.MainMenuItemBall.Deferred;
 
 import android.util.Log;
 
-public class MainMenuItemBall extends Tickable {
+public class MainMenuItemBall extends Tickable
+	implements ICanCollide<MainMenuObstacleBall> {
+	
 	public abstract static class Deferred {
 		public abstract void call();
 	}
+	
+	private HashSet ignoredForCollision;
 	
 	// string label of this menu item
 	private String label; 
@@ -58,6 +64,8 @@ public class MainMenuItemBall extends Tickable {
 			float damping,
 			float mass
 	) {
+		ignoredForCollision = new HashSet();
+		
 		this.label = label;
 		this.x0 = x0;
 		this.y0 = y0;
@@ -315,5 +323,42 @@ public class MainMenuItemBall extends Tickable {
 	
 	public void provideDeferred(Deferred c){
 		deferred = c;
+	}
+
+	@Override
+	public void collide(MainMenuObstacleBall other) {
+		// TODO Auto-generated method stub
+		// think on this!
+	}
+
+	@Override
+	public boolean affectedBy(MainMenuObstacleBall other) {
+		float x0 = currentX;
+		float y0 = currentY;
+		float r0 = radius;
+		
+		float x1 = other.getX();
+		float y1 = other.getY();
+		float r1 = other.getRadius();
+		
+		boolean result;
+		float dist =(float)Math.sqrt((x0-x1)*(x0-x1)+(y0-y1)*(y0-y1));
+		if(dist < r0 + r1){
+			result = true;
+		}else{
+			result = false;
+		}
+		
+		if(result){
+			if(ignoredForCollision.contains(other)){
+				return false;
+			}else{
+				ignoredForCollision.add(other);
+				return true;
+			}
+		}else{
+			ignoredForCollision.remove(other);
+			return false;
+		}
 	}
 }

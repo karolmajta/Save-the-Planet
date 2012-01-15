@@ -19,6 +19,9 @@ import com.karolmajta.stp.views.MainMenuItemBallView;
 import com.karolmajta.stp.views.ObstacleManagerView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
@@ -28,6 +31,7 @@ import processing.core.PFont;
 
 public class MainMenuActivity extends PApplet {
 	
+	private static final int QUIT_DIALOG = 0;
 	
 	private static final float BG = 0xff000000;
 	
@@ -70,6 +74,30 @@ public class MainMenuActivity extends PApplet {
 	public void onPause() {
 		noLoop();
 		super.onPause();
+	}
+	
+	@Override
+	public Dialog onCreateDialog(int id) {
+		switch(id){
+			case QUIT_DIALOG:
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setMessage("Are you sure you want to exit?")
+				       .setCancelable(false)
+				       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				                MainMenuActivity.this.finish();
+				           }
+				       })
+				       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+				           public void onClick(DialogInterface dialog, int id) {
+				                dialog.cancel();
+				           }
+				       });
+				AlertDialog alert = builder.create();
+				return alert;
+			default:
+				return null;
+		}
 	}
 	
     @Override
@@ -262,7 +290,15 @@ public class MainMenuActivity extends PApplet {
     					new MainMenuItemBall.Deferred() {
 							@Override
 							public void call() {
-								finish();
+								runOnUiThread
+										(
+												new Runnable() {
+													@Override
+													public void run() {
+														showDialog(QUIT_DIALOG);
+													}
+												}
+										);
 							}
     					}
     			);

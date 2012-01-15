@@ -26,8 +26,16 @@ public class MainMenuObstacleBall extends Tickable {
 		 */
 		@Override
 		public void collide(MainMenuItemBall other) {
-			// TODO Auto-generated method stub
+			float rx = x - other.getCurrentX();
+			float ry = y - other.getCurrentY();
+			float r = (float)Math.sqrt(rx*rx + ry*ry);
+			float v1 = (float)Math.sqrt(Math.pow(other.getCurrentVX(), 2)+Math.pow(other.getCurrentVY(), 2));
+			float v2 = (float)Math.sqrt(vx*vx+vy*vy);
+			float dvx = (2/r)*rx*(other.getMass()/(mass+other.getMass()))*(v1+v2);
+			float dvy = (2/r)*ry*(other.getMass()/(mass+other.getMass()))*(v1+v2);
 			
+			vx += dvx;
+			vy += dvy;
 		}
 
 		/**
@@ -79,8 +87,7 @@ public class MainMenuObstacleBall extends Tickable {
 		 */
 		@Override
 		public void collide(MainMenuObstacleBall other) {
-			// TODO Auto-generated method stub
-			
+			// TODO
 		}
 
 		/**
@@ -121,19 +128,25 @@ public class MainMenuObstacleBall extends Tickable {
 	private ItemBallCollider itemCollider = new ItemBallCollider();
 	private ObstacleBallCollider obstacleCollider = new ObstacleBallCollider();
 	
+	private float impulseX;
+	private float impulseY;
+	
 	private float x; // pixels
 	private float y; // pixels
 	private float radius; // pixels
 	private float vx; // pixels/millisecond
 	private float vy; // pixels/millisecond
 	
-	public MainMenuObstacleBall(float x, float y, float r, float vx, float vy) {
+	private float mass;
+	
+	public MainMenuObstacleBall(float x, float y, float r, float vx, float vy, float mass) {
 		
 		this.x = x;
 		this.y = y;
 		this.radius = r;
 		this.vx = vx;
 		this.vy = vy;
+		this.mass = mass;
 	}
 	
 	public float getRadius() {
@@ -216,5 +229,9 @@ public class MainMenuObstacleBall extends Tickable {
 	
 	public void collide(MainMenuObstacleBall b) {
 		obstacleCollider.collide(b);
+	}
+
+	public float getMass() {
+		return mass;
 	}
 }

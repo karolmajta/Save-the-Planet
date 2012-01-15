@@ -12,8 +12,11 @@ import com.karolmajta.procprox.excepiton.FontNotCreatedException;
 import com.karolmajta.stp.exception.NoDeferredException;
 import com.karolmajta.stp.exception.UnboundViewException;
 import com.karolmajta.stp.models.MainMenuItemBall;
+import com.karolmajta.stp.models.MainMenuObstacleBall;
+import com.karolmajta.stp.models.ObstacleManager;
 import com.karolmajta.stp.views.FancyTextView;
 import com.karolmajta.stp.views.MainMenuItemBallView;
+import com.karolmajta.stp.views.ObstacleManagerView;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -24,6 +27,8 @@ import processing.core.PApplet;
 import processing.core.PFont;
 
 public class MainMenuActivity extends PApplet {
+	
+	
 	private static final float BG = 0xff000000;
 	
 	private static float BALL_BASE_X;
@@ -42,6 +47,9 @@ public class MainMenuActivity extends PApplet {
 	
 	private ArrayList<MainMenuItemBall> menuBalls;
 	private ArrayList<MainMenuItemBallView> ballViews;
+	
+	private ObstacleManager om;
+	private ObstacleManagerView ov;
 	
 	private FancyTextView swipeToScrollTextView;
 	
@@ -278,6 +286,10 @@ public class MainMenuActivity extends PApplet {
     	ballViews.add(new MainMenuItemBallView(0xffcc9900, 0xffffffff));
     	ballViews.get(5).bindModel(menuBalls.get(5));
     	
+    	om = new ObstacleManager(0, 0, width, height);
+    	ov = new ObstacleManagerView();
+    	ov.bindModel(om);
+    	
     	PFont font = null;
     	try {
 			font = FontManager.getFontManager()
@@ -351,8 +363,24 @@ public class MainMenuActivity extends PApplet {
     	}
     	
     	for(MainMenuItemBall b : menuBalls){
+    		for(MainMenuObstacleBall ob : om.getObstacles()){
+	    		if(ob.affectedBy(b)){
+	        		ob.collide(b);
+	        	}
+	        	if(b.affectedBy(ob)){
+	        		b.collide(ob);
+	        	}
+    		}	
+    	}
+    	
+    	for(MainMenuItemBall b : menuBalls){
     		b.tick(deltaTime);
     	}
+    	for(MainMenuObstacleBall ob : om.getObstacles()){
+    		ob.tick(deltaTime);
+    	}
+    	om.tick(deltaTime);
+    	om.cleanup();
     	
     	// view part
     	background(BG);
@@ -361,6 +389,7 @@ public class MainMenuActivity extends PApplet {
     		for(MainMenuItemBallView bv : ballViews){
     			bv.draw(this);
     		}
+    		ov.draw(this);
     		swipeToScrollTextView.draw(this);
 		} catch (UnboundViewException e) {
 			e.printStackTrace();

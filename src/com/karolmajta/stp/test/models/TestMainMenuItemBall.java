@@ -102,4 +102,7 @@ public class TestMainMenuItemBall extends TestCase {
 		assertEquals(b.getCurrentX(), nextX);
 		assertEquals(b.getCurrentY(), nextY);
 	}
+	
+	// COLLISION DETECTION, THIS WILL BE ROUGH! LOL, I DONT EVEN
+	// KNOW HOW TO WRITE TH
 }

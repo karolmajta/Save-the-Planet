@@ -15,7 +15,7 @@ public class TestMainMenuObstacleBall extends TestCase {
 	public static final long DT = 21;
 	
 	public void testIntegrationOnTick() {
-		MainMenuObstacleBall ball = new MainMenuObstacleBall(X0, Y0, R, VX0, VY0);
+		MainMenuObstacleBall ball = new MainMenuObstacleBall(X0, Y0, R, VX0, VY0, 10);
 		
 		float x1 = X0+VX0*DT;
 		float y1 = Y0+VY0*DT;
@@ -27,7 +27,7 @@ public class TestMainMenuObstacleBall extends TestCase {
 	}
 	
 	public void testVelocityWontChangeOnIntegration() {
-		MainMenuObstacleBall ball = new MainMenuObstacleBall(X0, Y0, R, VX0, VY0);
+		MainMenuObstacleBall ball = new MainMenuObstacleBall(X0, Y0, R, VX0, VY0, 10);
 		
 		ball.tick(DT);
 		
@@ -44,7 +44,7 @@ public class TestMainMenuObstacleBall extends TestCase {
 		float y1 = 20.0f;
 		float r1 = 8.0f;
 		
-		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0);
+		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0, 10);
 		MainMenuItemBall b1 = new MainMenuItemBall
 				(
 						x1, y1, r1, 0, 0, 0
@@ -62,7 +62,7 @@ public class TestMainMenuObstacleBall extends TestCase {
 		float y1 = 20.0f;
 		float r1 = 12.0f;
 		
-		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0);
+		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0, 10);
 		MainMenuItemBall b1 = new MainMenuItemBall
 				(
 						x1, y1, r1, 0, 0, 0
@@ -90,7 +90,7 @@ public class TestMainMenuObstacleBall extends TestCase {
 		
 		MainMenuItemBall item = new MainMenuItemBall(xc, yc, rc, 0, 0, 0);
 		
-		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0);
+		MainMenuObstacleBall b0 = new MainMenuObstacleBall(x0, y0, r0, 0, 0, 10);
 		
 		assertTrue(b0.affectedBy(item));
 		assertFalse(b0.affectedBy(item));

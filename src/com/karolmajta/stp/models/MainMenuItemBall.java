@@ -327,8 +327,16 @@ public class MainMenuItemBall extends Tickable
 
 	@Override
 	public void collide(MainMenuObstacleBall other) {
-		// TODO Auto-generated method stub
-		// think on this!
+		float rx = currentX - other.getX();
+		float ry = currentY - other.getY();
+		float r = (float)Math.sqrt(rx*rx + ry*ry);
+		float v1 = (float)Math.sqrt(Math.pow(other.getVX(), 2)+Math.pow(other.getVY(), 2));
+		float v2 = (float)Math.sqrt(currentVX*currentVX+currentVY*currentVY);
+		float dvx = (2/r)*rx*(other.getMass()/(mass+other.getMass()))*(v1+v2);
+		float dvy = (2/r)*ry*(other.getMass()/(mass+other.getMass()))*(v1+v2);
+		
+		currentVX += dvx;
+		currentVY += dvy;
 	}
 
 	@Override

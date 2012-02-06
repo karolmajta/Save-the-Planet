@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+  android:padding="10dp"
+	xmlns:android="http://schemas.android.com/apk/res/android">
+<TextView
+	android:id="@+id/quit_dialog_text"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:text="@string/confirm_quit_question"
+  android:textSize="20sp"
+  android:gravity="center"
+  android:layout_margin="10dp" />
+<LinearLayout
+	android:id="@+id/buttons_layout"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+  android:minHeight="70dp"
+  android:layout_marginTop="30dp"
+  android:gravity="center" >
+<Button
+	android:id="@+id/confirm_quit_button"
+	android:layout_width="70dp"
+	android:layout_height="fill_parent"
+	android:text="@string/yes"
+  android:textSize="30sp"
+  android:layout_marginLeft="30dp"
+  android:layout_marginRight="30dp"
+  android:textColor="#FFFFFFFF"
+  android:background="@drawable/round_button_red" />
+<Button
+	android:id="@+id/cancel_quit_button"
+	android:layout_width="70dp"
+	android:layout_height="fill_parent"
+	android:text="@string/no"
+  android:textSize="30sp"
+  android:layout_marginLeft="30dp"
+  android:layout_marginRight="30dp"
+  android:textColor="#FFFFFFFF"
+  android:background="@drawable/round_button_green" />
+</LinearLayout>
+</LinearLayout>

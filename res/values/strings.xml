@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Save the Planet!</string>
+    <string name="confirm_quit_question">Are you sure you want to quit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+</resources>

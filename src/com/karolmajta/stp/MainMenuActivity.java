@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.karolmajta.procprox.Drag;
@@ -81,37 +83,43 @@ public class MainMenuActivity extends PApplet {
 	@Override
 	public Dialog onCreateDialog(int id) {
 		switch(id){
-			/*
-			case QUIT_DIALOG:
-				
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				builder.setMessage("Are you sure you want to exit?")
-				       .setCancelable(false)
-				       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				                MainMenuActivity.this.finish();
-				           }
-				       })
-				       .setNegativeButton("No", new DialogInterface.OnClickListener() {
-				           public void onClick(DialogInterface dialog, int id) {
-				                dialog.cancel();
-				           }
-				       });
-				AlertDialog alert = builder.create();
-				return alert;
-			*/
 			case QUIT_DIALOG:
 				LayoutInflater inflater=LayoutInflater.from(this);
 				int quitDialogLayoutId = com.karolmajta.stp.R.layout.quit_dialog_layout;
-				int tvId = com.karolmajta.stp.R.id.text;
-			    View addView=inflater.inflate(quitDialogLayoutId, null);
-			    TextView tv = (TextView)addView.findViewById(tvId);
+				int tvId = com.karolmajta.stp.R.id.quit_dialog_text;
+				int confirmQuitId = com.karolmajta.stp.R.id.confirm_quit_button;
+				int cancelQuitId = com.karolmajta.stp.R.id.cancel_quit_button;
+			    View dialogView = inflater.inflate(quitDialogLayoutId, null);
+			    
+			    TextView tv = (TextView)dialogView.findViewById(tvId);
 			    Typeface face = Typeface.createFromAsset(getAssets(), "Sansation_Bold.ttf");
 			    tv.setTypeface(face);
 			    
-			    new AlertDialog.Builder(this)
-			    	.setView(addView)
-			    	.show();
+			    Button okButton = (Button)dialogView.findViewById(confirmQuitId);
+			    okButton.setTypeface(face);
+			    Button cancelButton = (Button)dialogView.findViewById(cancelQuitId);
+			    cancelButton.setTypeface(face);
+			    
+			    final AlertDialog quitDialog = new AlertDialog.Builder(this).create();
+			    quitDialog.setView(dialogView);
+			    okButton.setOnClickListener(
+		    			new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								quitDialog.cancel();
+								MainMenuActivity.this.finish();
+							}
+						}
+		    		);
+			    cancelButton.setOnClickListener(
+		    			new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								quitDialog.cancel();
+							}
+						}
+		    		);
+			    quitDialog.show();
 			    
 			default:
 				return null;

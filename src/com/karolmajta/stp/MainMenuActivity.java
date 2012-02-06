@@ -2,6 +2,19 @@ package com.karolmajta.stp;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
+import processing.core.PFont;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
 import com.karolmajta.procprox.Drag;
 import com.karolmajta.procprox.DragDetector;
 import com.karolmajta.procprox.FontManager;
@@ -17,17 +30,6 @@ import com.karolmajta.stp.models.ObstacleManager;
 import com.karolmajta.stp.views.FancyTextView;
 import com.karolmajta.stp.views.MainMenuItemBallView;
 import com.karolmajta.stp.views.ObstacleManagerView;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Display;
-
-import processing.core.PApplet;
-import processing.core.PFont;
 
 public class MainMenuActivity extends PApplet {
 	
@@ -79,7 +81,9 @@ public class MainMenuActivity extends PApplet {
 	@Override
 	public Dialog onCreateDialog(int id) {
 		switch(id){
+			/*
 			case QUIT_DIALOG:
+				
 				AlertDialog.Builder builder = new AlertDialog.Builder(this);
 				builder.setMessage("Are you sure you want to exit?")
 				       .setCancelable(false)
@@ -95,6 +99,20 @@ public class MainMenuActivity extends PApplet {
 				       });
 				AlertDialog alert = builder.create();
 				return alert;
+			*/
+			case QUIT_DIALOG:
+				LayoutInflater inflater=LayoutInflater.from(this);
+				int quitDialogLayoutId = com.karolmajta.stp.R.layout.quit_dialog_layout;
+				int tvId = com.karolmajta.stp.R.id.text;
+			    View addView=inflater.inflate(quitDialogLayoutId, null);
+			    TextView tv = (TextView)addView.findViewById(tvId);
+			    Typeface face = Typeface.createFromAsset(getAssets(), "Sansation_Bold.ttf");
+			    tv.setTypeface(face);
+			    
+			    new AlertDialog.Builder(this)
+			    	.setView(addView)
+			    	.show();
+			    
 			default:
 				return null;
 		}
